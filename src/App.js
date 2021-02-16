@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
+import { FetchData } from './redux/action';
+ 
+
 
 function App() {
+
+  const dispatch = useDispatch();
+  const state = useSelector(state => state.test);
+
+  useEffect(() => {
+    dispatch(FetchData());
+  }, [])
+  const {fetchData,Data} = state;
+  const [newData] = Data;  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {newData ? newData.map((val,index)=>{
+        let {userId, id, title, body } = val;
+       return (<div key={index}>
+         <h1>Id : {id}</h1>
+         <ul>
+           <li>{userId}</li>
+           <li>{id}</li>
+           <li>{title}</li>
+           <li>{body}</li>
+         </ul>
+       </div>)
+      }): null}
     </div>
   );
 }
